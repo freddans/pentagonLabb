@@ -124,6 +124,8 @@ public class Menu {
         break;
       case "4":
         // List all games
+        System.out.println("List of Games");
+        gameController.getAll(true);
         showMainMenu();
         break;
       case "5":
@@ -157,7 +159,6 @@ public class Menu {
     switch (userChoice) {
       case "1":
         // Add team
-        Team team = new Team();
         System.out.print("Add team 💬: ");
         String teamName = teamScanner.nextLine();
         System.out.println("Games:");
@@ -190,14 +191,41 @@ public class Menu {
 
           if (teamController.save(newTeam)) {
             System.out.println("✅ Team: " + teamName + " has been added for game: " + nameOfGame);
+            showMainMenu();
           } else {
             System.out.println("❌ Team: " + teamName + " could not be added");
+            showMainMenu();
           }
         } catch (NumberFormatException e) {
           System.out.println("Invalid input. Please enter a valid numeric game choice.");
         } finally {
           showMainMenu();
         }
+        break;
+      case "2":
+        // Update team
+        teamController.getAll(true);
+        System.out.print("Choose id to update 💬: ");
+        Team teamToUpdate = teamController.getTeamById(new Scanner(System.in).nextInt());
+        System.out.print("Change name from " + teamToUpdate.getName() + " to 💬: ");
+        teamToUpdate.setName(new Scanner(System.in).nextLine());
+        if (teamController.updateTeam(teamToUpdate)) {
+          System.out.println("✅ Game updated to: " + teamToUpdate.getName());
+
+          showMainMenu();
+        } else {
+          System.out.println("❌ Game failed to update");
+
+          showMainMenu();
+        }
+        break;
+      case "3":
+        break;
+      case "4":
+        // List all teams
+        System.out.println("List of Teams");
+        teamController.getAll(true);
+        showMainMenu();
         break;
       default:
         break;
@@ -242,10 +270,8 @@ public class Menu {
         String country = playerScanner.nextLine();
         System.out.print("Input E-Mail 💬: ");
         String eMail = playerScanner.nextLine();
-        System.out.print("Input Team ID 💬: ");
-        int team_id = playerScanner.nextInt();
 
-        if (playerController.save(new Player(firstName, lastName, nickName, adress, zipCode, postalAdress, country, eMail, team_id))) {
+        if (playerController.save(new Player(firstName, lastName, nickName, adress, zipCode, postalAdress, country, eMail))) {
           System.out.println("✅ Player: " + firstName + " '" + nickName + "' " + lastName + " has been added");
           showMainMenu();
         } else {

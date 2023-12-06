@@ -25,15 +25,17 @@ public class Player {
   private String country;
   @Column(name = "email", length = 30)
   private String eMail;
-  @Column(name = "team_id")
-  private int team_id; // FOREIGN KEY (game_id) REFERENCES Game(id);
+
+  @ManyToOne(cascade = CascadeType.ALL)
+  @JoinColumn(name = "team_id")
+  private Team team;
 
   // Empty Constructor
   public Player() {
   }
 
   // Constructor w/o id
-  public Player(String firstName, String lastName, String nickName, String adress, String zipCode, String postalAdress, String country, String eMail, int team_id) {
+  public Player(String firstName, String lastName, String nickName, String adress, String zipCode, String postalAdress, String country, String eMail) {
     this.firstName = firstName;
     this.lastName = lastName;
     this.nickName = nickName;
@@ -42,11 +44,10 @@ public class Player {
     this.postalAdress = postalAdress;
     this.country = country;
     this.eMail = eMail;
-    this.team_id = team_id;
   }
 
   // Full Constructor
-  public Player(int id, String firstName, String lastName, String nickName, String adress, String zipCode, String postalAdress, String country, String eMail, int team_id) {
+  public Player(int id, String firstName, String lastName, String nickName, String adress, String zipCode, String postalAdress, String country, String eMail) {
     this.id = id;
     this.firstName = firstName;
     this.lastName = lastName;
@@ -56,7 +57,6 @@ public class Player {
     this.postalAdress = postalAdress;
     this.country = country;
     this.eMail = eMail;
-    this.team_id = team_id;
   }
 
   // Setters and Getters
@@ -132,11 +132,4 @@ public class Player {
     this.eMail = eMail;
   }
 
-  public int getTeam_id() {
-    return team_id;
-  }
-
-  public void setTeam_id(int team_id) {
-    this.team_id = team_id;
-  }
 }
